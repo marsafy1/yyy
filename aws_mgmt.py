@@ -11,12 +11,16 @@ secret_key = os.getenv('AWS_SECRET_KEY')
 
 # Configurations
 region_name = 'me-central-1'
-ami_id = 'ami-0e35ae85b404efe33'
+ubuntu_ami_id = 'ami-0e35ae85b404efe33' # Ubuntu
+windows_ami_id = 'ami-050c8997cac00c58d' # Winshare
+ami_id = windows_ami_id # Assigning the AMI Id
 instance_type = 't3.micro'
 security_group_id = 'sg-0f99030b4a237d514'
 
 # Global Variables
 current_instance = None
+running_instances_ids = []
+not_running_instances_ids = []
 running_instance_count = 0
 
 # Creating a boto3 client
@@ -65,6 +69,7 @@ def get_user_input(input_message, validate_function):
 
     try:
         validate_function(user_input)
+        return user_input
     except Exception as e:
         print(e)
         get_user_input(input_message, validate_function)
@@ -82,15 +87,28 @@ def validate_instance_choice(user_choice):
 def user_choose_instance():
     print(f'You have {running_instance_count} instance(s) running')
     user_choice = get_user_input(f'Choose one (1 - {running_instance_count}) or create a new instance(N): ', validate_instance_choice)
+    print(f'User chose {user_choice}')
+    return user_choice
 
 # To get the working instance that will be used later
 def get_working_instance():
-    global running_instance_count
+    global running_instances_ids, not_running_instances_ids, running_instance_count
 
     running_instances_ids, not_running_instances_ids = get_existing_instances()
     running_instance_count = len(running_instances_ids)
 
     if(running_instance_count > 0):
-        user_choose_instance()
+        user_choice = int(user_choose_instance()) - 1
+        return running_instances_ids[user_choice]
     else:
         print('You do not have any instances, will create a new one')
+        return create_new_instance()
+    
+# To get the info about the instance
+def get_instance_details_by_id(instance_id):
+    response = client.describe_instances(InstanceIds=[instance_id])
+    return response
+
+# To extract address Ip
+def get_instance_address_ip(instance_details):
+    return instance_details['Reservations'][0]['Instances'][0]['NetworkInterfaces'][0]['Association']['PublicIp']
