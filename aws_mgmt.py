@@ -11,11 +11,11 @@ secret_key = os.getenv('AWS_SECRET_KEY')
 
 # Configurations
 region_name = 'me-central-1'
-ubuntu_ami_id = 'ami-0e35ae85b404efe33' # Ubuntu
-windows_ami_id = 'ami-050c8997cac00c58d' # Winshare
+ubuntu_ami_id = 'ami-0b98fa71853d8d270' # Ubuntu
+windows_ami_id = 'ami-0bdb551a74e682731' # Winshare
 ami_id = windows_ami_id # Assigning the AMI Id
 instance_type = 't3.micro'
-security_group_id = 'sg-0f99030b4a237d514'
+security_group_id = 'sg-0ceff133271f50a36'
 
 # Global Variables
 current_instance = None
@@ -59,6 +59,13 @@ def create_new_instance():
 
     # Fetching the instance ID
     instance_id = instances['Instances'][0]['InstanceId']
+
+    # Initialize waiter
+    waiter = client.get_waiter('instance_running')
+
+    # Wait for the instance to be in the running state
+    waiter.wait(InstanceIds=[instance_id])
+
     print(f"EC2 Instance with ID {instance_id} has been created.")
 
     return instance_id
