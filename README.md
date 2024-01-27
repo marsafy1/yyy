@@ -19,7 +19,7 @@ To get started with this project, ensure you have Python installed along with th
 
 ```bash
 pip install boto3 pycrypto
-
+```
 
 ## Todo
 1. Add names to functions' parameters
