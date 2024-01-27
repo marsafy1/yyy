@@ -15,10 +15,10 @@ This Python project automates the creation and configuration of AWS instances, s
 - `pycrypto`: Employed for decryption of AWS instance passwords.
 
 ## Getting Started
-To get started with this project, ensure you have Python installed along with the required libraries:
+To get started with this project, ensure you have Python installed along with the required libraries and configure the .env file with your data:
 
 ```bash
-pip install boto3 pycrypto
+pip install -r requirements.txt
 ```
 
 ## Todo
