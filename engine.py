@@ -1,5 +1,6 @@
 import aws_mgmt
-import subprocess
+from smb import SMB
+from utils import extract_sharenames
 
 # Current working instance's ID
 instance_id = None
@@ -18,19 +19,15 @@ if __name__ == '__main__':
 
     print(f'Instance\'s IP {instance_ip}')
 
-    process = subprocess.Popen(
-                [
-                    "smbclient",
-                    "-L",
-                    "\\\\{}".format(instance_ip),
-                    "-U",
-                    "{}%{}".format("USERNAME", "PASSWORD"),
-                ],
-                stdout=subprocess.PIPE,
-                stderr= subprocess.PIPE,
-            )
-    
-    stdout, stderr = process.communicate()
-    return_code = process.returncode
-    print(stdout)
-    print(return_code)
+    instance_username = aws_mgmt.get_instance_username(instance_id=instance_id)
+    instance_password = aws_mgmt.get_instance_password(instance_id=instance_id)
+
+
+    smb = SMB(username=instance_username, password=instance_password, ip=instance_ip)
+
+    connection = smb.connect()
+
+    sharenames = extract_sharenames(connection)[1::]
+
+    print(f'Shares on {instance_ip}')
+    print(sharenames)

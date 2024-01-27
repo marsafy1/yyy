@@ -1,6 +1,8 @@
 import boto3
 import os
+
 from dotenv import load_dotenv
+from utils import decrypt_password, get_user_input
 
 # Loading the .env file
 load_dotenv()
@@ -72,16 +74,6 @@ def create_new_instance():
 
     return instance_id
 
-# To get ANY user input. Keep getting input till we get a valid input
-def get_user_input(input_message, validate_function):
-    user_input =  input(input_message)
-
-    try:
-        validate_function(user_input)
-        return user_input
-    except Exception as e:
-        print(e)
-        get_user_input(input_message, validate_function)
 
 # To validate the instance choice
 def validate_instance_choice(user_choice):
@@ -121,3 +113,12 @@ def get_instance_details_by_id(instance_id):
 # To extract address Ip
 def get_instance_address_ip(instance_details):
     return instance_details['Reservations'][0]['Instances'][0]['NetworkInterfaces'][0]['Association']['PublicIp']
+
+# To get the instance's username
+def get_instance_username(instance_id):
+    return 'Administrator'
+
+# To get the instance's password
+def get_instance_password(instance_id):
+    encrypted_password = client.get_password_data(InstanceId=instance_id)['PasswordData']
+    return decrypt_password(encrypted_password)
