@@ -1,4 +1,4 @@
-# yyy - AWS Instance Management and Information Gathering
+# yyy - AWS Instance Management and Shares Information Gathering
 
 ## Overview
 This Python project automates the creation and configuration of AWS instances, specifically focusing on Windows servers. It facilitates the setup of security group IDs, retrieves decrypted instance passwords, and gathers information using SMB commands.
