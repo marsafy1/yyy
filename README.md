@@ -21,6 +21,15 @@ To get started with this project, ensure you have Python installed along with th
 pip install -r requirements.txt
 ```
 
+## Examples
+### Running engine without having any existing instances
+```
+python3 engine.py
+You do not have any instances, will create a new one
+EC2 Instance with ID i-060013a9506ffc58b has been created.
+Created i-060013a9506ffc58b
+Please wait for 4 minutes before accessing the instance
+```
 ## Todo
 1. Add names to functions' parameters
 2. Proper Doc
