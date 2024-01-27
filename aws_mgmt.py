@@ -11,14 +11,14 @@ load_dotenv()
 access_key = os.getenv('AWS_ACCESS_KEY')
 secret_key = os.getenv('AWS_SECRET_KEY')
 
-# Configurations
-region_name = 'me-central-1'
-ubuntu_ami_id = 'ami-0b98fa71853d8d270' # Ubuntu
-windows_ami_id = 'ami-0bdb551a74e682731' # Winshare
-ami_id = windows_ami_id # Assigning the AMI Id
-instance_type = 't3.micro'
-key_pair_name = 'development'
-security_group_id = 'sg-0ceff133271f50a36'
+# Configurations from .env
+region_name = os.getenv('REGION_NAME')
+ubuntu_ami_id = os.getenv('UBUNTU_AMI_ID')
+windows_ami_id = os.getenv('WINDOWS_AMI_ID')
+ami_id = os.getenv('AMI_ID')
+instance_type = os.getenv('INSTANCE_TYPE')
+key_pair_name = os.getenv('KEY_PAIR_NAME')
+security_group_id = os.getenv('SECURITY_GROUP_ID')
 
 # Global Variables
 current_instance = None
