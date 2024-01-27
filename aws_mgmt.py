@@ -15,6 +15,7 @@ ubuntu_ami_id = 'ami-0b98fa71853d8d270' # Ubuntu
 windows_ami_id = 'ami-0bdb551a74e682731' # Winshare
 ami_id = windows_ami_id # Assigning the AMI Id
 instance_type = 't3.micro'
+key_pair_name = 'development'
 security_group_id = 'sg-0ceff133271f50a36'
 
 # Global Variables
@@ -55,6 +56,7 @@ def create_new_instance():
         SecurityGroupIds=[
             security_group_id
         ],
+        KeyName=key_pair_name
     )
 
     # Fetching the instance ID
