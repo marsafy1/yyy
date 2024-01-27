@@ -15,11 +15,16 @@ This Python project automates the creation and configuration of AWS instances, s
 - `pycrypto`: Employed for decryption of AWS instance passwords.
 
 ## Getting Started
-To get started with this project, ensure you have Python installed along with the required libraries and configure the .env file with your data:
-
+### 1. Libraries
+To get started with this project, ensure you have Python installed along with the required libraries:
 ```bash
 pip install -r requirements.txt
 ```
+### 2. Configure .env
+configure the .env file with your data
+### 3. AWS Configurations
+Make sure to allow for inbound and outbound traffic on port 445. To be able to gather information about the shares and so on.
+
 
 ## Examples
 ### Running engine without having any existing instances
@@ -41,5 +46,5 @@ Shares on 3.29.18.22
 [yyy, yyy, yyy]
 ```
 ## Todo
-1. Add names to functions' parameters
-2. Proper Doc
+1. Ability to modify shares by creating, deleting and updating files/dirs.
+2. Ability to update/change security groups while the instance is already up and running
