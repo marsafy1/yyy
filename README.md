@@ -24,11 +24,21 @@ pip install -r requirements.txt
 ## Examples
 ### Running engine without having any existing instances
 ```
-python3 engine.py
 You do not have any instances, will create a new one
-EC2 Instance with ID i-060013a9506ffc58b has been created.
-Created i-060013a9506ffc58b
+EC2 Instance with ID i-yyy has been created.
+Created i-yyy
 Please wait for 4 minutes before accessing the instance
+```
+### Running engine and having existing instances
+You will be asked to either choose one of the existing instances or create a new one
+```
+You have 1 instance(s) running
+Choose one (1 - 1) or create a new instance(N): 1
+User chose 1
+Will start working on i-yyy
+Instance's IP 3.29.18.22
+Shares on 3.29.18.22
+[yyy, yyy, yyy]
 ```
 ## Todo
 1. Add names to functions' parameters
