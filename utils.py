@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Getting the keys from .env
-private_key_path = os.getenv('PRIVATE_KEY_PATH')
+PRIVATE_KEY_PATH = os.getenv('PRIVATE_KEY_PATH')
 
 
 # To get ANY user input. Keep getting input till we get a valid input
@@ -26,7 +26,7 @@ def get_user_input(input_message, validate_function):
 
 # To decrypt an encrypted password
 def decrypt_password(encrypted_password):
-    with open(private_key_path, "r") as key_file:
+    with open(PRIVATE_KEY_PATH, "r") as key_file:
         private_key = key_file.read()
     key = RSA.importKey(private_key)
     cipher = Cipher_pkcs1_v1_5.new(key)

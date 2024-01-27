@@ -1,5 +1,6 @@
 import boto3
 import os
+import sys
 
 from dotenv import load_dotenv
 from utils import decrypt_password, get_user_input
@@ -8,17 +9,17 @@ from utils import decrypt_password, get_user_input
 load_dotenv()
 
 # Getting the keys from .env
-access_key = os.getenv('AWS_ACCESS_KEY')
-secret_key = os.getenv('AWS_SECRET_KEY')
+ACCESS_KEY = os.getenv('AWS_ACCESS_KEY')
+SECRET_KEY = os.getenv('AWS_SECRET_KEY')
 
 # Configurations from .env
-region_name = os.getenv('REGION_NAME')
-ubuntu_ami_id = os.getenv('UBUNTU_AMI_ID')
-windows_ami_id = os.getenv('WINDOWS_AMI_ID')
-ami_id = os.getenv('AMI_ID')
-instance_type = os.getenv('INSTANCE_TYPE')
-key_pair_name = os.getenv('KEY_PAIR_NAME')
-security_group_id = os.getenv('SECURITY_GROUP_ID')
+REGION_NAME = os.getenv('REGION_NAME')
+UBUNTU_AMI_ID = os.getenv('UBUNTU_AMI_ID')
+WINDOWS_AMI_ID = os.getenv('WINDOWS_AMI_ID')
+AMI_ID = os.getenv('AMI_ID')
+INSTANCE_TYPE = os.getenv('INSTANCE_TYPE')
+KEY_PAIR_NAME = os.getenv('KEY_PAIR_NAME')
+SECURITY_GROUP_ID = os.getenv('SECURITY_GROUP_ID')
 
 # Global Variables
 current_instance = None
@@ -28,12 +29,12 @@ running_instance_count = 0
 
 # Creating a boto3 client
 client = boto3.client('ec2',
-                    region_name=region_name,
-                    aws_access_key_id=access_key,
-                    aws_secret_access_key=secret_key
+                    region_name=REGION_NAME,
+                    aws_access_key_id=ACCESS_KEY,
+                    aws_secret_access_key=SECRET_KEY
                     )
 # Getting info about our EC2s resources
-conn = boto3.resource('ec2', aws_access_key_id=access_key, aws_secret_access_key=secret_key, region_name=region_name)
+conn = boto3.resource('ec2', aws_access_key_id=ACCESS_KEY, aws_secret_access_key=SECRET_KEY, region_name=REGION_NAME)
 
 # To check if an instance is running
 def instance_is_running(instance):
@@ -51,14 +52,14 @@ def get_existing_instances():
 def create_new_instance():
 
     instances = client.run_instances(
-        ImageId=ami_id,
-        InstanceType=instance_type,
+        ImageId=AMI_ID,
+        InstanceType=INSTANCE_TYPE,
         MinCount=1,
         MaxCount=1,
         SecurityGroupIds=[
-            security_group_id
+            SECURITY_GROUP_ID
         ],
-        KeyName=key_pair_name
+        KeyName=KEY_PAIR_NAME
     )
 
     # Fetching the instance ID
@@ -103,7 +104,10 @@ def get_working_instance():
         return running_instances_ids[user_choice]
     else:
         print('You do not have any instances, will create a new one')
-        return create_new_instance()
+        new_instance_id = create_new_instance()
+        print(f'Created {new_instance_id}')
+        print('Please wait for 4 minutes before accessing the instance')
+        sys.exit()
     
 # To get the info about the instance
 def get_instance_details_by_id(instance_id):
